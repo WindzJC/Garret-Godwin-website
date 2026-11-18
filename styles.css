@@ -1,0 +1,256 @@
+/* Garret Godwin — homepage concept
+   Idea: the Chasing Quetzalcoatl cover's own horizon (ground starts at 93.4% of its height)
+   becomes the page horizon. Every book stands on that shared black ground under a sky sampled from its own cover. */
+
+@font-face{font-family:"Marcellus";src:url(assets/fonts/marcellus-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Literata";src:url(assets/fonts/literata-var.woff2) format("woff2");font-weight:200 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Literata";src:url(assets/fonts/literata-italic-var.woff2) format("woff2");font-weight:200 900;font-style:italic;font-display:swap}
+@font-face{font-family:"Archivo";src:url(assets/fonts/archivo-var.woff2) format("woff2");font-weight:100 900;font-display:swap}
+
+:root{
+  --ground:#0C0B09;
+  --ink:#16130D;
+  --gold:#E3CF8A;
+  --cream:#F1E9D2;
+  --muted:#C4B796;          /* on ground: 9.9:1 */
+  --rule:#3B3527;
+  --sky-gold-1:#DCCB86;     /* sampled from the Chasing cover sky */
+  --sky-gold-2:#D2BD78;
+  --sky-gold-3:#BC9D63;
+  --display:"Marcellus",Georgia,serif;
+  --body:"Literata",Georgia,serif;
+  --label:"Archivo","Arial Narrow",Arial,sans-serif;
+  --gutter:clamp(20px,4vw,64px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--ground);color:var(--cream);font-family:var(--body);font-size:18px;line-height:1.6;overflow-x:hidden}
+img{display:block;max-width:100%}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.08;margin:0;letter-spacing:.005em}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+a{color:inherit}
+.wrap{width:min(1240px,100% - 2*var(--gutter));margin-inline:auto}
+.label{font-family:var(--label);font-weight:600;font-size:12.5px;line-height:1.3;letter-spacing:.14em;text-transform:uppercase}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* focus: a double ring that reads on gold sky and on black ground */
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;box-shadow:0 0 0 6px var(--cream);border-radius:2px}
+.skip{position:absolute;left:12px;top:-80px;z-index:20;background:var(--cream);color:var(--ink);padding:12px 18px;font:600 14px var(--label);text-decoration:none}
+.skip:focus{top:12px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 24px;background:var(--ink);color:var(--gold);
+  font:600 14px/1.2 var(--label);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;text-align:center;border:1.5px solid var(--ink);transition:background .2s,color .2s}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn-ground{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.btn-ground:hover{background:transparent;color:var(--gold)}
+
+/* ---------- header ---------- */
+.site-head{position:absolute;z-index:10;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px var(--gutter);color:var(--ink)}
+.site-head .mark{font-family:var(--display);font-size:21px;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+.site-head ul{display:flex;gap:clamp(14px,2.4vw,34px)}
+.site-head nav a{display:inline-flex;align-items:center;min-height:44px;font:600 13px var(--label);letter-spacing:.11em;text-transform:uppercase;text-decoration:none;border-bottom:1.5px solid transparent}
+.site-head nav a:hover{border-bottom-color:var(--ink)}
+
+/* ---------- the horizon device (shared) ----------
+   .horizon-cover holds a cover of height --ch. Its lower --sink sits below the horizon;
+   ::before paints the black ground from that line down, edge to edge, behind the cover. */
+.horizon-cover{position:relative;height:var(--ch);margin-bottom:calc(-1 * var(--sink));justify-self:center}
+.horizon-cover img{position:relative;height:100%;width:auto;box-shadow:0 0 0 1px rgba(22,19,13,.28),0 26px 50px -26px rgba(0,0,0,.6)}
+.horizon-cover::before{content:"";position:absolute;z-index:-1;top:calc(100% - var(--sink));left:-200vw;right:-200vw;height:300vh;background:var(--ground);border-top:1px solid rgba(227,207,138,.32)}
+
+/* ---------- 1 · opening ---------- */
+.opening{
+  --ch:clamp(330px,min(calc(100svh - 300px),calc((100vw - 720px) * 1.5)),620px);
+  --sink:calc(var(--ch) * .066);   /* measured: the cover's black ground is its bottom 6.6% */
+  position:relative;isolation:isolate;overflow:hidden;color:var(--ink);
+  background:linear-gradient(180deg,var(--sky-gold-1) 0%,var(--sky-gold-2) 42%,var(--sky-gold-3) 78%);
+  display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:clamp(28px,3.4vw,56px);
+  grid-template-areas:"author cover novel" "cross cross cross" "index index index";
+  padding:clamp(96px,13vh,128px) var(--gutter) 0;align-content:end}
+.opening-author{grid-area:author;align-self:start;padding-top:2vh}
+.opening-author h1{font-size:clamp(46px,5.4vw,80px);line-height:.98;margin-bottom:20px}
+.opening-author p{font-size:clamp(17px,1.35vw,20px);max-width:28ch}
+.opening-cover{grid-area:cover}
+.opening-novel{grid-area:novel;align-self:start;padding-top:2.6vh;max-width:430px}
+.opening-novel .label{margin-bottom:12px}
+.opening-novel h2{font-size:clamp(26px,2.3vw,36px);margin-bottom:14px}
+.opening-novel p:not(.label){font-size:17px;line-height:1.55;margin-bottom:24px}
+.opening-cross{grid-area:cross;display:flex;justify-content:center;gap:calc(var(--ch) * .667 + 2 * clamp(28px,3.4vw,56px));
+  padding-top:calc(var(--sink) * .2 + 22px);color:var(--gold);font-family:var(--display);font-size:clamp(24px,2.3vw,34px);line-height:1.1}
+.opening-cross span{flex:1 1 0;min-width:0}
+.opening-cross .from{text-align:right}
+.opening-cross small{display:block;font:600 11.5px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.opening-index{grid-area:index;margin-top:22px;border-top:1px solid var(--rule);padding:6px 0 10px}
+.opening-index ul{display:flex;flex-wrap:wrap;justify-content:center;column-gap:clamp(18px,2.4vw,38px)}
+.opening-index a{display:inline-flex;align-items:center;min-height:44px;color:var(--cream);font:500 13.5px var(--label);letter-spacing:.04em;text-decoration:none;border-bottom:1px solid transparent}
+.opening-index a:hover{border-bottom-color:var(--gold)}
+.opening-index a[aria-current]{color:var(--gold)}
+
+/* ---------- 2 · the novel ---------- */
+.novel{padding:clamp(72px,9vw,120px) 0 clamp(64px,8vw,104px);border-top:1px solid var(--rule)}
+.novel .label{color:var(--muted);margin-bottom:14px;text-align:center}
+.novel h2{font-size:clamp(32px,3.6vw,52px);color:var(--cream);text-align:center;max-width:20ch;margin:0 auto clamp(44px,6vw,72px)}
+.novel-sides{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:start}
+.side h3{font-size:clamp(28px,2.6vw,38px);color:var(--gold);margin-bottom:22px}
+.side h3 small{display:block;font:600 11.5px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.side li{position:relative;padding:14px 0;border-top:1px solid var(--rule);font-size:17px;line-height:1.55}
+.side-from{text-align:right}
+.novel-line{margin:0;align-self:center;text-align:center;padding:clamp(24px,3vw,40px) 0;border-block:1px solid rgba(227,207,138,.45)}
+.novel-line p{font-family:var(--body);font-style:italic;font-size:clamp(22px,2.1vw,30px);line-height:1.38;color:var(--cream)}
+.novel-line footer{margin-top:16px;font:600 12px var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.novel-begins{margin-top:clamp(56px,7vw,96px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(24px,4vw,64px);padding-top:32px;border-top:1px solid var(--rule)}
+.novel-begins h3{font-size:clamp(24px,2.2vw,32px);color:var(--gold)}
+.novel-begins p{font-size:18px;max-width:62ch}
+.begins-links{display:flex;flex-wrap:wrap;gap:8px 32px;margin-top:18px}
+.begins-links a{display:inline-flex;align-items:center;min-height:44px;color:var(--gold);font:600 14px var(--label);letter-spacing:.06em;text-underline-offset:5px}
+
+/* ---------- 3 · four more books ---------- */
+.books-intro{padding:clamp(64px,8vw,104px) 0 clamp(40px,5vw,64px);border-top:1px solid var(--rule);text-align:center}
+.books-intro .label{color:var(--muted);margin-bottom:14px}
+.books-intro h2{font-size:clamp(28px,3.1vw,46px);max-width:24ch;margin:0 auto 16px;color:var(--cream)}
+.books-intro p{color:var(--cream);max-width:52ch;margin:0 auto}
+
+.book{
+  --ch:clamp(300px,31vw,440px);
+  --sink:calc(var(--ch) * .03);
+  --pole-gap:clamp(28px,4vw,64px);
+  position:relative;isolation:isolate;overflow:hidden;background:var(--sky);color:var(--ink);
+  padding:clamp(48px,6vw,80px) var(--gutter) 0}
+.book-head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:12px 48px;align-items:end;max-width:1240px;margin:0 auto clamp(36px,4vw,56px)}
+.book-head .label{grid-column:1/-1}
+.book-head h3{font-size:clamp(30px,3.2vw,48px)}
+.book-head p:not(.label){font-size:17px;line-height:1.55;max-width:46ch;justify-self:end}
+.book-stage{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:var(--pole-gap);align-items:end}
+.pole{font-family:var(--display);font-size:clamp(34px,4.4vw,70px);line-height:1;padding-bottom:calc(var(--sink) + 30px)}
+.pole-from{text-align:right}
+.book-ground{color:var(--cream);display:grid;grid-template-columns:minmax(0,1fr) calc(var(--ch) * .667) minmax(0,1fr);column-gap:var(--pole-gap);
+  padding:calc(var(--sink) + 30px) 0 clamp(48px,5vw,72px)}
+.book-ground .from,.book-ground .to{font-size:17px;line-height:1.5}
+.book-ground .from{grid-column:1;text-align:right}
+.book-ground .to{grid-column:3}
+.book-ground li{padding:10px 0;border-top:1px solid var(--rule)}
+.book-ground li:first-child{border-top:0;padding-top:0}
+.buy{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:clamp(32px,4vw,48px);text-align:center}
+.edition{font:500 13px/1.5 var(--label);letter-spacing:.04em;color:var(--muted);max-width:96ch;text-wrap:balance}
+.pairs{grid-column:1/-1;display:grid;gap:0}
+.pairs li{display:grid;grid-template-columns:minmax(0,1fr) calc(var(--ch) * .667) minmax(0,1fr);column-gap:var(--pole-gap);align-items:baseline;padding:12px 0;border-top:1px solid var(--rule);font-size:18px}
+.pairs li:first-child{border-top:0;padding-top:0}
+.pairs li span:first-child{text-align:right}
+.pairs .vs{text-align:center;font:600 11.5px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- 4 · about ---------- */
+.about{padding:clamp(72px,9vw,128px) 0;border-top:1px solid var(--rule)}
+.about-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(36px,6vw,96px);align-items:center}
+.portrait{margin:0;display:grid;width:min(100%,440px);justify-self:center}
+.portrait-photo,.portrait-type{grid-area:1/1;width:100%;aspect-ratio:4/5}
+.portrait-photo{height:auto;object-fit:cover;background:#222}
+.portrait-type{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--sky-gold-1),var(--sky-gold-3));box-shadow:0 0 0 1px rgba(227,207,138,.35)}
+.portrait-sun{position:absolute;left:50%;top:74%;width:38%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,#FFF8DC 0 52%,#F3E3A6 70%,rgba(243,227,166,0) 72%)}
+.portrait-ground{position:absolute;left:0;right:0;bottom:0;height:26%;background:var(--ground);border-top:1px solid rgba(227,207,138,.32)}
+.portrait-ground{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.portrait-name{font-family:var(--display);font-size:clamp(20px,2vw,26px);color:var(--gold);line-height:1}
+.portrait-forms{font:600 10.5px var(--label);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.portrait-initials{position:absolute;z-index:2;left:0;right:0;bottom:26%;display:flex;justify-content:space-between;padding:0 11%;
+  font-family:var(--display);font-size:clamp(110px,15vw,190px);line-height:.74;color:var(--ink)}
+.portrait-initials span{display:inline}
+.portrait-invite{grid-area:2/1;margin-top:14px;text-align:center;font:500 13px var(--label);letter-spacing:.06em;color:var(--muted)}
+/* a real photo replaces the typographic panel and its caption */
+.portrait:has(.portrait-photo) .portrait-type,
+.portrait:has(.portrait-photo) .portrait-invite{display:none}
+.about-text .label{color:var(--muted);margin-bottom:14px}
+.about-text h2{font-size:clamp(30px,3.2vw,46px);color:var(--cream);margin-bottom:24px;max-width:20ch}
+.about-text p:not(.label){max-width:58ch;margin-bottom:16px}
+.about-facts{margin:32px 0 0;display:grid;gap:0;border-top:1px solid var(--rule)}
+.about-facts div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.about-facts dt{font:600 12px/1.9 var(--label);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.about-facts dd{margin:0;font-size:17px}
+
+/* ---------- 5 · closing ---------- */
+.closing{position:relative;isolation:isolate;overflow:hidden}
+.closing-sky{position:relative;background:linear-gradient(180deg,var(--sky-gold-1),var(--sky-gold-2) 55%,var(--sky-gold-3));color:var(--ink);text-align:center;
+  padding:clamp(80px,10vw,128px) var(--gutter) clamp(150px,16vw,210px)}
+.closing-sky .label{margin-bottom:14px}
+.closing-sky h2{font-size:clamp(32px,4vw,58px);max-width:18ch;margin:0 auto 18px}
+.closing-sky p:not(.label){font-size:18px}
+.closing-sun{position:absolute;left:50%;bottom:0;width:clamp(150px,17vw,240px);aspect-ratio:1;transform:translate(-50%,50%);border-radius:50%;
+  background:radial-gradient(circle,#FFF8DC 0 55%,#F3E3A6 69%,rgba(243,227,166,0) 71%);z-index:0}
+.closing-ground{position:relative;z-index:1;background:var(--ground);border-top:1px solid rgba(227,207,138,.32);padding:clamp(56px,6vw,80px) var(--gutter) clamp(72px,8vw,104px)}
+.editions{display:grid;grid-template-columns:repeat(2,minmax(0,360px));justify-content:center;gap:clamp(28px,5vw,80px)}
+.editions li{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding-top:20px;border-top:1px solid var(--gold)}
+.editions h3{font-size:30px;color:var(--gold)}
+.editions p{font:500 14px/1.6 var(--label);letter-spacing:.03em;color:var(--cream);margin-bottom:10px}
+
+/* ---------- footer ---------- */
+.site-foot{border-top:1px solid var(--rule);padding:40px var(--gutter) 48px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 28px;font:500 13.5px/1.6 var(--label);color:var(--muted)}
+.site-foot .mark{font:400 20px var(--display);color:var(--cream);margin-right:auto}
+.site-foot a{color:var(--cream);text-underline-offset:4px}
+.site-foot a,.site-foot .to-top{display:inline-flex;align-items:center;min-height:44px}
+.site-foot .to-top{color:var(--gold)}
+
+/* ---------- tablet / phone ---------- */
+@media (max-width:860px){
+  body{font-size:17px}
+  .site-head{flex-direction:column;align-items:flex-start;gap:0;padding:10px var(--gutter) 0}
+  .site-head .mark{font-size:19px}
+  .site-head ul{gap:22px}
+  .wide{display:none}
+
+  .opening{
+    --ch:clamp(220px,calc(100svh - 590px),330px);
+    grid-template-columns:minmax(0,1fr);grid-template-areas:"author" "cover" "cross" "novel";
+    padding-top:108px;min-height:0;align-content:start;row-gap:0}
+  .opening-author{padding-top:0;margin-bottom:22px}
+  .opening-author h1{font-size:clamp(40px,12vw,54px);margin-bottom:10px}
+  .opening-author p{font-size:16px;line-height:1.5;max-width:34ch}
+  .opening-cross{gap:calc(var(--ch) * .667 * 0 + 12px);padding-top:calc(var(--sink) * .2 + 16px);font-size:21px;justify-content:center;text-align:center}
+  .opening-cross span{flex:0 1 auto}
+  .opening-cross .from{text-align:center}
+  .opening-cross .from::after{content:" →";color:var(--muted)}
+  .opening-cross small{display:none}
+  .opening-novel{padding:14px 0 30px;max-width:none;color:var(--cream);text-align:center}
+  .opening-novel .label{color:var(--muted);margin-bottom:8px}
+  .opening-novel h2{font-size:24px;color:var(--gold);margin-bottom:10px}
+  .opening-novel p:not(.label){font-size:15.5px;margin-bottom:18px}
+  .opening-novel .btn{background:var(--gold);color:var(--ink);border-color:var(--gold);width:100%}
+  .opening-index{display:none}
+
+  .novel-sides{grid-template-columns:minmax(0,1fr)}
+  .side-from{text-align:left}
+  .novel-line{order:-1}
+  .novel-begins{grid-template-columns:minmax(0,1fr)}
+
+  .book{--ch:clamp(230px,62vw,320px);--pole-gap:14px}
+  .book-head{grid-template-columns:minmax(0,1fr);margin-bottom:26px}
+  .book-head p:not(.label){justify-self:start}
+  .book-stage{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"from to" "cover cover";row-gap:20px}
+  .pole{font-size:clamp(22px,6.6vw,30px);padding-bottom:0;align-self:end}
+  .pole-from{grid-area:from;text-align:left}
+  .pole-to{grid-area:to;text-align:right}
+  .book-stage .horizon-cover{grid-area:cover}
+  .book-ground{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:18px}
+  .book-ground .from{text-align:left}
+  .book-ground .to{grid-column:2;text-align:right}
+  .book-ground .from,.book-ground .to{font-size:15px}
+  .pairs li{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);column-gap:10px;font-size:15px}
+  .pairs li span:first-child{text-align:left}
+  .pairs li span:last-child{text-align:right}
+  .buy .btn{width:100%}
+
+  .about-grid{grid-template-columns:minmax(0,1fr)}
+  .portrait{width:min(100%,360px)}
+  .portrait-initials{font-size:clamp(96px,30vw,150px)}
+  .about-facts div{grid-template-columns:minmax(0,1fr);gap:2px}
+
+  .editions{grid-template-columns:minmax(0,1fr)}
+  .editions .btn{width:100%}
+  .site-foot .mark{width:100%}
+}
+@media (max-width:360px){
+  .site-head ul{gap:16px}
+  .site-head nav a{font-size:12px;letter-spacing:.08em}
+  .book-ground .from,.book-ground .to,.pairs li{font-size:14px}
+}
